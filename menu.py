@@ -8,8 +8,3 @@ def index():
 
 if __name__=='__main__':
     app.run(debug=True)
-
-print('hi')
-print('test')
-print("test again")
-print("test again2145145184751")
