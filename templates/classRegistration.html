@@ -25,6 +25,11 @@
     <br>
     <label for="ID">Enter Your Student ID:</label>
     <input type="text" name="ID"></input>
+    <select name="classes">
+        <option value="ai">Intro to Artificial Intelligence</option>
+        <option value="networking">Computer Networks</option>
+        <option value="os">Operating Systems</option>
+    </select>
     <img src="{{ url_for('video_feed') }}" width="50%" height="50%">
     <a href="#" id="test"><button type="button">Take picture</button></a>
     <input type="submit">Register!</input>

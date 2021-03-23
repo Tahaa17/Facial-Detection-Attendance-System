@@ -27,7 +27,7 @@ def takepicture():
 @app.route('/register',methods=['POST'])
 def register():
     global imageString
-    Face_Recognize.sendToDatabase(request.form['Name'],request.form['ID'],imageString)
+    Face_Recognize.sendToDatabase(request.form['Name'],request.form['ID'],request.form['classes'],imageString)
     return render_template('index.html')
 if __name__=='__main__':
     app.run(debug=True)
