@@ -6,5 +6,45 @@
 
 {% block body %}
 <h1>LiveStream</h1>
-<img src="{{ url_for('video_feed') }}" width="50%" height="50%">
+<h1>Jutr Attendance</h1>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type=text/javascript>
+        $(function() {
+          $('a#scan').on('click', function(e) {
+            e.preventDefault()
+            $.getJSON('/scanface',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+</script>
+<script type=text/javascript>
+    $(function() {
+      $('#classSelect').on('change', function(e) {
+        var classSelected= $('#classSelect').val();
+        document.getElementById("imgWrapper").src = "{{ url_for('detection_feed') }}";
+        {% set testing = 1 %}
+        e.preventDefault()
+        $.getJSON('/queryDB?'+classSelected,
+            function(data) {
+          //do nothing
+        });
+        return false;
+      });
+    });
+</script>
+<form method="GET">
+    <select name="classes" id="classSelect">
+        <option value="" selected disabled hidden>Choose the Class You Would Like to Sign Into</option>
+        <option value="ai" class="classClick">Intro to Artificial Intelligence</option>
+        <option value="networking" class="classClick">Computer Networks</option>
+        <option value="os" class="classClick">Operating Systems</option>
+    </select>
+    {% if testing ==1 %}
+        <img id="imgWrapper" width="50%" height="50%" >
+        <a href="#" id="scan"><button type="button">Scan Face</button></a>
+    {% endif %}
+</form>
 {% endblock %}

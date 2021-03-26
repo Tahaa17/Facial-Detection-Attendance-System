@@ -2,9 +2,13 @@ import cv2
 import numpy as np
 from dbms import db
 import pickle
+import face_recognition
 pictureTaken=0
 imageString=None
 frame=None
+faceScanned=False
+namesList=[]
+imagesList=[]
 def feed():
     global pictureTaken
     global imageString
@@ -20,7 +24,7 @@ def feed():
         gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
         faces=faceCascade.detectMultiScale(gray,scaleFactor=1.05,minNeighbors=10)
         for(x,y,h,w) in faces:
-            
+
             print(x, y, h, w)
             cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
         ret, buffer=cv2.imencode('.jpg',frame)
@@ -45,3 +49,55 @@ def sendToDatabase(name, ID, choice, image):
     val=(ID,name,image)
     myCursor.execute(sql,val)
     db.commit()
+
+def recognizer():
+    def compareFaces(frame):
+        global namesList
+        global imagesList
+        print("LENGTH ",len(namesList))
+        encodedFrame=face_recognition.face_encodings(frame,None,1,"large")[0]
+        faceLocations=face_recognition.face_locations(frame)
+        results=face_recognition.compare_faces(imagesList,encodedFrame)
+        print("results ",results)
+    faceCascade = cv2.CascadeClassifier('data/haarcascade_frontalface_default.xml')
+    capture =cv2.VideoCapture(0)
+
+    foundface=False
+    global faceScanned
+    faceScanned=False
+    temp=[]
+    while (faceScanned==False):
+        success, frame=capture.read()
+        copiedFrame=frame
+        gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
+        faces=faceCascade.detectMultiScale(frame,scaleFactor=1.1,minNeighbors=6)
+        if len(faces)!=len(temp):
+            foundface=False
+        temp=faces
+        for(x,y,h,w) in faces:
+            FaceFrame=frame
+            #print(x, y, h, w)
+            cv2.rectangle(copiedFrame,(x,y),(x+w,y+h),(0,255,0),2)
+        if(foundface==False):
+            if len(face_recognition.face_locations(frame))>0:
+                print("FOUND")
+                foundface=True
+                goodFaceFrame=FaceFrame
+        ret, buffer=cv2.imencode('.jpg',frame)
+        buffer1=frame
+        frame = buffer.tobytes()
+        yield (b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+    compareFaces(goodFaceFrame)
+    
+    capture.release()
+    cv2.destroyAllWindows()
+def scanFace():
+    global faceScanned
+    faceScanned=1
+    print("SCANNING...")
+def updateValues(names,images):
+    global namesList
+    global imagesList
+    namesList=names
+    imagesList=images

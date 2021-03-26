@@ -36,14 +36,20 @@ faceCascade = cv2.CascadeClassifier('data/haarcascade_frontalface_default.xml')
 capture =cv2.VideoCapture(0)
 
 foundface=False
+temp=[]
 while (True):
     success, frame=capture.read()
     copiedFrame=frame
     gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-    faces=faceCascade.detectMultiScale(frame,scaleFactor=1.05,minNeighbors=10)
+    faces=faceCascade.detectMultiScale(frame,scaleFactor=1.1,minNeighbors=6)
+    if len(faces)!=len(temp):
+        foundface=False
+    temp=faces
     for(x,y,h,w) in faces:
         FaceFrame=frame
-        print(x, y, h, w)
+        #print(x, y, h, w)
+        print("FACES ",len(faces))
+        print ("TEMP ",len(temp))
         x1=x
         y1=y
         h1=h
@@ -52,6 +58,7 @@ while (True):
     cv2.imshow('frame',copiedFrame)
     if(foundface==False):
         if len(face_recognition.face_locations(FaceFrame))>0:
+            print("FOUND")
             foundface=True
             goodFaceFrame=FaceFrame
     if cv2.waitKey(1) & 0xFF == ord('q'):

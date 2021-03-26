@@ -1,8 +1,15 @@
 from flask import Flask, render_template, Response, request
 import Face_Recognize
+from dbms import db
+import pickle
+import face_recognition
 
 app=Flask(__name__)
 global imageString
+global namesList
+namesList=[]
+global imagesList
+imagesList=[]
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -14,6 +21,12 @@ def class_sign_up():
 @app.route('/video_feed')
 def video_feed():
     return Response(Face_Recognize.feed(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    
+@app.route('/detection_feed')
+def detection_feed():
+    global namesList
+    global imagesList
+    return Response(Face_Recognize.recognizer(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/class_registration')
 def classRegistration():
@@ -24,6 +37,26 @@ def takepicture():
     global imageString
     imageString=Face_Recognize.TakePicture()
 
+@app.route('/scanface')
+def scanface():
+    Face_Recognize.scanFace()
+
+@app.route('/queryDB')
+def queryDB():
+    name=request.query_string.decode("utf-8")
+    print("NAME ",name)
+    myCursor = db.cursor()
+    myCursor.execute("SELECT * FROM "+name)
+    myresult = myCursor.fetchall()
+    studentNames=[]
+    studentImages=[]
+    for row in myresult:
+        print(row[0])
+        studentNames.append(row[1])
+        studentImages.append(face_encodings(pickle.loads(row[2]),None,1,"large")[0])
+    Face_Recognize.updateValues(studentNames,studentImages)
+
+
 @app.route('/register',methods=['POST'])
 def register():
     global imageString
@@ -31,5 +64,4 @@ def register():
     return render_template('index.html')
 if __name__=='__main__':
     app.run(debug=True)
-
 
