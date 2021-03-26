@@ -25,6 +25,7 @@
       $('#classSelect').on('change', function(e) {
         var classSelected= $('#classSelect').val();
         document.getElementById("imgWrapper").src = "{{ url_for('detection_feed') }}";
+        document.getElementById("scan").hidden = false;
         {% set testing = 1 %}
         e.preventDefault()
         $.getJSON('/queryDB?'+classSelected,
@@ -44,7 +45,7 @@
     </select>
     {% if testing ==1 %}
         <img id="imgWrapper" width="50%" height="50%" >
-        <a href="#" id="scan"><button type="button">Scan Face</button></a>
+        <a href="#" id="scan" hidden><button type="button">Scan Face</button></a>
     {% endif %}
 </form>
 {% endblock %}

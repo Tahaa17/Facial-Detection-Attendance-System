@@ -53,7 +53,9 @@ def queryDB():
     for row in myresult:
         print(row[0])
         studentNames.append(row[1])
-        studentImages.append(face_encodings(pickle.loads(row[2]),None,1,"large")[0])
+        studentImages.append(face_recognition.face_encodings(pickle.loads(row[2]),None,1,"large")[0])
+    print("Images length",len(studentImages))
+    print("Names length",len(studentNames))
     Face_Recognize.updateValues(studentNames,studentImages)
 
 

@@ -22,7 +22,7 @@ def feed():
         global buffer1
         success, frame=capture.read()
         gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-        faces=faceCascade.detectMultiScale(gray,scaleFactor=1.05,minNeighbors=10)
+        faces=faceCascade.detectMultiScale(gray,scaleFactor=1.05,minNeighbors=6)
         for(x,y,h,w) in faces:
 
             print(x, y, h, w)
@@ -58,7 +58,10 @@ def recognizer():
         encodedFrame=face_recognition.face_encodings(frame,None,1,"large")[0]
         faceLocations=face_recognition.face_locations(frame)
         results=face_recognition.compare_faces(imagesList,encodedFrame)
-        print("results ",results)
+        for value in results:
+            if value==True:
+                idx=results.index(True)
+        print("YOU ARE ",namesList[idx])
     faceCascade = cv2.CascadeClassifier('data/haarcascade_frontalface_default.xml')
     capture =cv2.VideoCapture(0)
 
@@ -70,7 +73,7 @@ def recognizer():
         success, frame=capture.read()
         copiedFrame=frame
         gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-        faces=faceCascade.detectMultiScale(frame,scaleFactor=1.1,minNeighbors=6)
+        faces=faceCascade.detectMultiScale(frame,scaleFactor=2,minNeighbors=10)
         if len(faces)!=len(temp):
             foundface=False
         temp=faces
@@ -82,7 +85,7 @@ def recognizer():
             if len(face_recognition.face_locations(frame))>0:
                 print("FOUND")
                 foundface=True
-                goodFaceFrame=FaceFrame
+                goodFaceFrame=frame
         ret, buffer=cv2.imencode('.jpg',frame)
         buffer1=frame
         frame = buffer.tobytes()
