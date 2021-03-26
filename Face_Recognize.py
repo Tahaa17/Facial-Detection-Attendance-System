@@ -17,16 +17,26 @@ def feed():
     pictureTaken=0
     faceCascade = cv2.CascadeClassifier('data/haarcascade_frontalface_default.xml')
     capture =cv2.VideoCapture(0)
-
+    foundFace=False
+    temp=[]
     while (pictureTaken==0):
         global buffer1
         success, frame=capture.read()
         gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
         faces=faceCascade.detectMultiScale(gray,scaleFactor=1.05,minNeighbors=6)
+        if len(faces)!=len(temp):
+            foundFace=False
+        temp=faces
         for(x,y,h,w) in faces:
 
             print(x, y, h, w)
-            cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+            if(foundFace==False):
+                cv2.rectangle(frame,(x,y),(x+w,y+h),(0,0,255),2)
+            else:
+                cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+        if(foundFace==False):
+            if len(face_recognition.face_locations(frame))>0:
+                foundFace=True
         ret, buffer=cv2.imencode('.jpg',frame)
         buffer1=frame
         frame = buffer.tobytes()
