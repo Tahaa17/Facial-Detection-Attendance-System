@@ -3,12 +3,15 @@ import numpy as np
 from dbms import db
 import pickle
 import face_recognition
+import datetime
+
 pictureTaken=0
 imageString=None
 frame=None
 faceScanned=False
 namesList=[]
 imagesList=[]
+match=None
 def feed():
     global pictureTaken
     global imageString
@@ -68,10 +71,15 @@ def recognizer():
         encodedFrame=face_recognition.face_encodings(frame,None,1,"large")[0]
         faceLocations=face_recognition.face_locations(frame)
         results=face_recognition.compare_faces(imagesList,encodedFrame)
+        idx=None
         for value in results:
             if value==True:
                 idx=results.index(True)
-        print("YOU ARE ",namesList[idx])
+        if idx != None:
+            print("YOU ARE ",namesList[idx])
+            setMatch(namesList[idx])
+        else:
+            print("NO MATCH")
     faceCascade = cv2.CascadeClassifier('data/haarcascade_frontalface_default.xml')
     capture =cv2.VideoCapture(0)
 
@@ -83,7 +91,7 @@ def recognizer():
         success, frame=capture.read()
         copiedFrame=frame
         gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-        faces=faceCascade.detectMultiScale(frame,scaleFactor=2,minNeighbors=10)
+        faces=faceCascade.detectMultiScale(frame,scaleFactor=2,minNeighbors=6)
         if len(faces)!=len(temp):
             foundface=False
         temp=faces
@@ -114,3 +122,11 @@ def updateValues(names,images):
     global imagesList
     namesList=names
     imagesList=images
+def setMatch(name):
+    global match
+    match=name
+def getMatch():
+    global match
+    name=match
+    match=None
+    return name

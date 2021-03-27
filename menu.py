@@ -48,6 +48,7 @@ def queryDB():
     myCursor = db.cursor()
     myCursor.execute("SELECT * FROM "+name)
     myresult = myCursor.fetchall()
+    myCursor.close()
     studentNames=[]
     studentImages=[]
     for row in myresult:
@@ -64,6 +65,20 @@ def register():
     global imageString
     Face_Recognize.sendToDatabase(request.form['Name'],request.form['ID'],request.form['classes'],imageString)
     return render_template('index.html')
+
+@app.route('/getMatch')
+def getMatch():
+    print("THIS GETS CALLED")
+    match=Face_Recognize.getMatch()
+    if(match!=None):
+        return "<p>"+match+"</p>"
+    return "<p>No Match</p>"
+
+@app.route('/confirmStudent')
+def confirmStudent():
+    print("Student signs in")
+    
+
 if __name__=='__main__':
     app.run(debug=True)
 

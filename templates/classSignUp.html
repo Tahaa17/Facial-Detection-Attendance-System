@@ -36,6 +36,26 @@
       });
     });
 </script>
+  <script type=text/javascript>
+    $(function() {
+      $('a#scan').on('click', function(e) {
+          setTimeout(() => {
+                    $.ajax({
+                    url: "/getMatch",
+                    type: "get",
+                success: function(response) {
+                $("#matchWrapper").html(response);
+                },
+                error: function(xhr) {
+                //Do Something to handle error
+                }             
+            });
+          }, 3000);
+        
+    });
+    return false;
+});
+</script>
 <form method="GET">
     <select name="classes" id="classSelect">
         <option value="" selected disabled hidden>Choose the Class You Would Like to Sign Into</option>
@@ -43,9 +63,8 @@
         <option value="networking" class="classClick">Computer Networks</option>
         <option value="os" class="classClick">Operating Systems</option>
     </select>
-    {% if testing ==1 %}
         <img id="imgWrapper" width="50%" height="50%" >
         <a href="#" id="scan" hidden><button type="button">Scan Face</button></a>
-    {% endif %}
+        <div id="matchWrapper"></div>
 </form>
 {% endblock %}
