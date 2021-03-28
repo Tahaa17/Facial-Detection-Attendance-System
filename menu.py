@@ -3,6 +3,7 @@ import Face_Recognize
 from dbms import db
 import pickle
 import face_recognition
+import datetime
 
 app=Flask(__name__)
 global imageString
@@ -64,21 +65,34 @@ def queryDB():
 def register():
     global imageString
     Face_Recognize.sendToDatabase(request.form['Name'],request.form['ID'],request.form['classes'],imageString)
-    return render_template('index.html')
+    return render_template('index.html',message="Successfully registered for "+request.form['classes'])
 
 @app.route('/getMatch')
 def getMatch():
     print("THIS GETS CALLED")
     match=Face_Recognize.getMatch()
     if(match!=None):
-        return "<p>"+match+"</p>"
-    return "<p>No Match</p>"
+        return match
+    return "No Match Found"
 
 @app.route('/confirmStudent')
 def confirmStudent():
+    name=request.query_string.decode("utf-8")
+    args=name.split('?')
+    print(name)
+    print(args)
+    now = datetime.datetime.now()
+    myCursor = db.cursor()
+    sql = "UPDATE "+args[0]+" SET LastLogin =%s WHERE Name = %s"
+    vals=(now,args[1])
+    myCursor.execute(sql,vals)
+    db.commit()
     print("Student signs in")
-    
+    return render_template('index.html',message=args[1]+" you were signed in!")
 
+@app.route('/recognitionFail')
+def recognitionFail():
+    return render_template('classSignUp.html',message="Sorry for the inconvinience! Please try again!")
 if __name__=='__main__':
     app.run(debug=True)
 

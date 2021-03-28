@@ -44,7 +44,20 @@
                     url: "/getMatch",
                     type: "get",
                 success: function(response) {
-                $("#matchWrapper").html(response);
+                    if (response === "No Match Found"){
+                        document.getElementById("noMatch").hidden=false;
+                        document.getElementById("noMatch").innerHTML=response;
+                        document.getElementById("FailureButton2").hidden=false;
+                    }
+                    else{
+                        document.getElementById("matchFound").hidden=false;
+                        document.getElementById("matchFound").innerHTML=response;
+                        document.getElementById("SuccessButton").hidden=false;
+                        document.getElementById("FailureButton").hidden=false;
+                        var className = document.getElementById("classSelect").value;
+                        document.getElementById("SuccessButton").href="confirmStudent?"+className+"?"+response
+                    }
+                
                 },
                 error: function(xhr) {
                 //Do Something to handle error
@@ -56,6 +69,7 @@
     return false;
 });
 </script>
+<p>{{message}}</p>
 <form method="GET">
     <select name="classes" id="classSelect">
         <option value="" selected disabled hidden>Choose the Class You Would Like to Sign Into</option>
@@ -65,6 +79,12 @@
     </select>
         <img id="imgWrapper" width="50%" height="50%" >
         <a href="#" id="scan" hidden><button type="button">Scan Face</button></a>
-        <div id="matchWrapper"></div>
+        <div id="matchWrapper">
+            <p id="matchFound" hidden></p>
+            <p id="noMatch" hidden></p>
+            <a id="SuccessButton" hidden><button type="button">This is me, sign me in!</button></a>
+            <a href="recognitionFail" id="FailureButton" hidden><button type="button">This is not me</button></a>
+            <a href="recognitionFail" id="FailureButton2" hidden><button type="button">Retry</button></a>
+        </div>
 </form>
 {% endblock %}
