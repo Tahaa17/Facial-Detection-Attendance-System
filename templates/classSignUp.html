@@ -5,8 +5,13 @@
 {% endblock %}
 
 {% block body %}
-<h1>LiveStream</h1>
-<h1>Jutr Attendance</h1>
+<div class="container-sm">
+  <div class="jumbotron text-center bg-transparent text-white p-3 mb-5 rounded-12">
+    <h1 style="font-size: 130px;">JUTR Attendance</h1>
+    <p style="font-size: 40px;">Welcome to the Sign In</p>
+  </div>
+ 
+</div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type=text/javascript>
         $(function() {
@@ -70,15 +75,22 @@
 });
 </script>
 <p>{{message}}</p>
+<div class="col-md-4 mb-3" style="position: absolute; bottom:47%; left: 15%;"">
 <form method="GET">
-    <select name="classes" id="classSelect">
+    <select class="form-control" name="classes" id="classSelect">
         <option value="" selected disabled hidden>Choose the Class You Would Like to Sign Into</option>
         <option value="ai" class="classClick">Intro to Artificial Intelligence</option>
         <option value="networking" class="classClick">Computer Networks</option>
         <option value="os" class="classClick">Operating Systems</option>
     </select>
-        <img id="imgWrapper" width="50%" height="50%" >
-        <a href="#" id="scan" hidden><button type="button">Scan Face</button></a>
+  </div>
+  <div class="col-6 col-mb-4" style="position: absolute; left: 50%; top: 45%;">
+        <img id="imgWrapper" width="60%" height="40%" style="border: 8px solid rgb(0, 144, 180);">
+  </div>
+    <div class="col-md-4 mb-3" style="left: 15%;">
+        <a href="#" id="scan" hidden><button class="btn btn-dark" type="button">Scan Face</button></a>
+    </div>    
+    </div>
         <div id="matchWrapper">
             <p id="matchFound" hidden></p>
             <p id="noMatch" hidden></p>

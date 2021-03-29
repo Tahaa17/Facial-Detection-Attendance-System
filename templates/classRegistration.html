@@ -5,8 +5,15 @@
 {% endblock %}
 
 {% block body %}
-<h1>Jutr Attendance</h1>
+<div class="container-sm">
+  <div class="jumbotron text-center bg-transparent text-white p-3 mb-5 rounded-12">
+    <h1 style="font-size: 130px;">JUTR Attendance</h1>
+    <p style="font-size: 40px;">Welcome to Registration</p>
+  </div>
+ 
 
+  <div class="container-sm">
+    <div class="jumbotron text-left bg-transparent text-white p-3 mb-5 rounded-12">
 <script type=text/javascript>
         $(function() {
           $('a#test').on('click', function(e) {
@@ -19,19 +26,37 @@
           });
         });
 </script>
+
+
 <form action="{{ url_for('register') }}" method="POST">
+  <div class="col-md-4 mb-3" style="position: absolute; bottom:40%; left: 15%;">
     <label for="Name">Enter Your Name:</label>
-    <input type="text" name="Name"></input>
-    <br>
+    <input type="text" class="form-control" name="Name" required></input>
+    </div>
+    
+    <div class="col-md-4 mb-3" style="position: absolute; bottom:30%; left: 15%;">
     <label for="ID">Enter Your Student ID:</label>
-    <input type="text" name="ID"></input>
-    <select name="classes">
+    <input type="text" class="form-control" name="ID" required></input>
+    </div>
+    </form>
+    <br>
+    <div class="col-md-4 mb-3" style="position: absolute; bottom:20%; left: 15%;">
+    <select class="form-control" name="classes">
         <option value="ai">Intro to Artificial Intelligence</option>
         <option value="networking">Computer Networks</option>
         <option value="os">Operating Systems</option>
     </select>
-    <img src="{{ url_for('video_feed') }}" width="50%" height="50%">
-    <a href="#" id="test"><button type="button">Take picture</button></a>
-    <input type="submit">Register!</input>
+    </div>
+    <div class="col-6 col-mb-4" style="position: absolute; left: 50%; top: 52%;">
+    <img src="{{ url_for('video_feed') }}" width="60%" height="40%" style="border: 8px solid rgb(0, 144, 180);">
+    <p> Please wait till box is green before taking picture</p>
+    </div>
+    </div>
+    <div class="col-md-4 mb-3" style="position: absolute; bottom:5%; left: 15%;">
+    <a href="#" id="test"><button class="btn btn-dark" type="button">Take picture</button></a>
+    <input class="btn btn-dark" type="submit"></input>
+    </div>
 </form>
+
+
 {% endblock %}
