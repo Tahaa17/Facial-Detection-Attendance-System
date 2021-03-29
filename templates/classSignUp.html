@@ -9,6 +9,11 @@
   <div class="jumbotron text-center bg-transparent text-white p-3 mb-5 rounded-12">
     <h1 style="font-size: 130px;">JUTR Attendance</h1>
     <p style="font-size: 40px;">Welcome to the Sign In</p>
+
+    
+  </div>
+  <div class="alert alert-success">
+    <p style="font-size: 50px; color: red;">{{message}}</p>
   </div>
  
 </div>
@@ -74,8 +79,7 @@
     return false;
 });
 </script>
-<p>{{message}}</p>
-<div class="col-md-4 mb-3" style="position: absolute; bottom:47%; left: 15%;"">
+<div class="col-md-4 mb-3" style="position: absolute; bottom:47%; left: 15%;">
 <form method="GET">
     <select class="form-control" name="classes" id="classSelect">
         <option value="" selected disabled hidden>Choose the Class You Would Like to Sign Into</option>
@@ -86,17 +90,20 @@
   </div>
   <div class="col-6 col-mb-4" style="position: absolute; left: 50%; top: 45%;">
         <img id="imgWrapper" width="60%" height="40%" style="border: 8px solid rgb(0, 144, 180);">
+        <p style="color: white;"> Please wait till box is green before taking picture</p>
   </div>
     <div class="col-md-4 mb-3" style="left: 15%;">
         <a href="#" id="scan" hidden><button class="btn btn-dark" type="button">Scan Face</button></a>
     </div>    
     </div>
         <div id="matchWrapper">
-            <p id="matchFound" hidden></p>
-            <p id="noMatch" hidden></p>
-            <a id="SuccessButton" hidden><button type="button">This is me, sign me in!</button></a>
-            <a href="recognitionFail" id="FailureButton" hidden><button type="button">This is not me</button></a>
-            <a href="recognitionFail" id="FailureButton2" hidden><button type="button">Retry</button></a>
+            <p style="font-size: 40px; color: white; position:absolute; left: 16%;" id="matchFound" hidden></p>
+            <p style="font-size: 40px; color: white; position:absolute; left: 16%;" id= "noMatch" hidden></p>
+            <div class="col-md-4 mb-3" style="position:absolute; bottom:12%; left: 15%;">
+            <a id="SuccessButton" hidden><button class="btn btn-success" type="button">This is me, sign me in!</button></a>
+            <a href="recognitionFail" id="FailureButton" hidden><button class="btn btn-danger" type="button">This is not me</button></a>
+            <a href="recognitionFail" id="FailureButton2" hidden><button class="btn btn-danger" type="button">Retry</button></a>
+            </div>
         </div>
 </form>
 {% endblock %}
