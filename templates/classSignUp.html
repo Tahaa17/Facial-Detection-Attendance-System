@@ -12,12 +12,13 @@
 
     
   </div>
-  <div class="alert alert-success">
-    <p style="font-size: 50px; color: red;">{{message}}</p>
+  {% if message is defined%}
+  <div class="alert alert-danger alert-dismissible fade show">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{message}}
   </div>
- 
+  {%endif%}
 </div>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type=text/javascript>
         $(function() {
           $('a#scan').on('click', function(e) {
@@ -35,8 +36,9 @@
       $('#classSelect').on('change', function(e) {
         var classSelected= $('#classSelect').val();
         document.getElementById("imgWrapper").src = "{{ url_for('detection_feed') }}";
+        document.getElementById("imgWrapper").hidden = false;
         document.getElementById("scan").hidden = false;
-        {% set testing = 1 %}
+        document.getElementById("greenBoxText").hidden = false;
         e.preventDefault()
         $.getJSON('/queryDB?'+classSelected,
             function(data) {
@@ -61,7 +63,7 @@
                     }
                     else{
                         document.getElementById("matchFound").hidden=false;
-                        document.getElementById("matchFound").innerHTML=response;
+                        document.getElementById("matchFound").innerHTML="Hello "+response+"!";
                         document.getElementById("SuccessButton").hidden=false;
                         document.getElementById("FailureButton").hidden=false;
                         var className = document.getElementById("classSelect").value;
@@ -89,8 +91,8 @@
     </select>
   </div>
   <div class="col-6 col-mb-4" style="position: absolute; left: 50%; top: 45%;">
-        <img id="imgWrapper" width="60%" height="40%" style="border: 8px solid rgb(0, 144, 180);">
-        <p style="color: white;"> Please wait till box is green before taking picture</p>
+        <img id="imgWrapper" width="60%" height="40%" style="border: 8px solid rgb(0, 144, 180);" hidden>
+        <p style="color: white;" id="greenBoxText" hidden> Please wait till box is green before taking picture</p>
   </div>
     <div class="col-md-4 mb-3" style="left: 15%;">
         <a href="#" id="scan" hidden><button class="btn btn-dark" type="button">Scan Face</button></a>

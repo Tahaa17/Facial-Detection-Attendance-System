@@ -32,7 +32,6 @@ def feed():
         temp=faces
         for(x,y,h,w) in faces:
 
-            print(x, y, h, w)
             if(foundFace==False):
                 cv2.rectangle(frame,(x,y),(x+w,y+h),(0,0,255),2)
             else:
@@ -97,8 +96,10 @@ def recognizer():
         temp=faces
         for(x,y,h,w) in faces:
             FaceFrame=frame
-            #print(x, y, h, w)
-            cv2.rectangle(copiedFrame,(x,y),(x+w,y+h),(0,255,0),2)
+            if(foundface==False):
+                cv2.rectangle(frame,(x,y),(x+w,y+h),(0,0,255),2)
+            else:
+                cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
         if(foundface==False):
             if len(face_recognition.face_locations(frame))>0:
                 print("FOUND")
