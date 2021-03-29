@@ -1,10 +1,9 @@
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, send_file
 import Face_Recognize
 from dbms import db
 import pickle
 import face_recognition
 import datetime
-
 app=Flask(__name__)
 global imageString
 global namesList
@@ -93,6 +92,17 @@ def confirmStudent():
 @app.route('/recognitionFail')
 def recognitionFail():
     return render_template('classSignUp.html',message="Sorry for the inconvinience! Please try again!")
+
+@app.route('/jutrImage')
+def jutrImage():
+    filename= 'jutr_logo_final.png'
+    return send_file(filename, mimetype='Facial-Detection-Attendance-System\jutr_logo_final.png')
+
+@app.route('/BG')
+def BG():
+    filename= 'background.jpg'
+    return send_file(filename, mimetype='Facial-Detection-Attendance-System\backgrounds.jpg')
+
 if __name__=='__main__':
     app.run(debug=True)
 

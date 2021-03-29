@@ -5,10 +5,16 @@
 {% endblock %}
 
 {% block body %}
-<h1>Jutr Attendance</h1>
 
 <p>{{message}}</p>
 
-<a href="/class_sign_in">Sign in to a class!</a>
-<a href="/class_registration">Register for a class</a>
+<div class="jumbotron jumbotron-fluid" style="opacity: 0.9; background: none;">
+    <div class="jumbotron jumbotron-fluid" style="background: none;">
+      <h1 style="font-size: 250px; position: center; color: white ; margin: auto; width: 70%; border: 2px;">JUTR </h1>
+      <h1 style="font-size: 50px; position: absolute; color: white ; text-align: center; top: 43.3%; right: 41%;">Attendance</h1>
+      <p style="color: white; font-size: 100px; position: absolute; margin: auto; right: 18%; top: 50%">Your class is only a click away</p>
+    </div>
+</div>
+<a href="/class_registration" class="button" style="background: #76B3FA; border-radius: 100px;   padding: 20px 60px; color: #fff; text-decoration: none; font-size: 1.45em; margin: 0 15px; position: absolute; left: 30%; top: 75%;" >Register for a class!</a>
+<a href="/class_sign_in" class="button" style="background: #D2D2D2; border-radius: 100px;   padding: 20px 60px; color: #fff; text-decoration: none; font-size: 1.45em; margin: 0 15px; position: absolute; left: 52%; top: 75%;">Sign in to a class!</a>
 {% endblock %}
