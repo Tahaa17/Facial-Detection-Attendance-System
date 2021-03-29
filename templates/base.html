@@ -11,7 +11,7 @@
     {% block head %}{% endblock %}
 </head>
 <body>
-    <body style="background-image: url({{ url_for('BG') }}); background-size: cover; background-repeat: no-repeat; height:50rem; background-position: center;"></body>
+    <body style="background-image: url({{ url_for('BG') }}); background-size: auto; background-repeat: no-repeat;"></body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
 
     <div class="container-fluid">
@@ -20,12 +20,7 @@
         </a>
         <div class="navbar-nav">
             <a href="{{ url_for('index') }}" class="nav-item nav-link text-white bg-dark"><i class="fa fa-fw fa-home"></i> Home</a>
-            <a href="{{ url_for('index') }}" class="nav-item nav-link text-white bg-dark"><i class="fa fa-fw fa-envelope"></i> About</a>
-            <a href="{{ url_for('index') }}" class="nav-item nav-link text-white bg-dark"><i class="fa fa-fw fa-bars"></i> Help</a>
-        </div>
-        <div class="navbar-nav ml-auto">
-            <a href="./Profile" class="nav-item nav-link text-white bg-dark"><i class="fa fa-fw fa-user"></i>My Profile</a>
-            <a href="./Logout" class="nav-item nav-link text-white bg-dark"><i class='fas fa-sign-out-alt'></i> Logout</a>
+
         </div>
       </nav>
     {% block body %}{% endblock %}
