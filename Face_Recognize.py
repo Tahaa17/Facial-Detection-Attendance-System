@@ -68,7 +68,6 @@ def recognizer():
         global imagesList
         print("LENGTH ",len(namesList))
         encodedFrame=face_recognition.face_encodings(frame,None,1,"large")[0]
-        faceLocations=face_recognition.face_locations(frame)
         results=face_recognition.compare_faces(imagesList,encodedFrame)
         idx=None
         for value in results:
@@ -88,7 +87,6 @@ def recognizer():
     temp=[]
     while (faceScanned==False):
         success, frame=capture.read()
-        copiedFrame=frame
         gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
         faces=faceCascade.detectMultiScale(frame,scaleFactor=2,minNeighbors=6)
         if len(faces)!=len(temp):
@@ -106,7 +104,6 @@ def recognizer():
                 foundface=True
                 goodFaceFrame=frame
         ret, buffer=cv2.imencode('.jpg',frame)
-        buffer1=frame
         frame = buffer.tobytes()
         yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
