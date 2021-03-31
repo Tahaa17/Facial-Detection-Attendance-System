@@ -4,12 +4,13 @@ from dbms import db
 import pickle
 import face_recognition
 import datetime
-app=Flask(__name__)
 global imageString
 global namesList
 namesList=[]
 global imagesList
 imagesList=[]
+
+app=Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
